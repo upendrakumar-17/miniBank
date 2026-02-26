@@ -198,5 +198,43 @@ router.patch('/verify-otp', async (req, res) => {
         res.status(500).json({ error: "Error during verification" });
     }
 });
+// 5. DEPOSIT MONEY
+router.patch('/deposit', async (req, res) => {
+    const { accountNo, amount } = req.body;
+    try {
+        if (Number(amount) <= 0) return res.status(400).json({ error: "Amount must be positive." });
+
+        const account = await Account.findOneAndUpdate(
+            { accountNo },
+            { $inc: { balance: Number(amount) } }, 
+            { new: true }
+        );
+
+        if (!account) return res.status(404).json({ error: "Account not found." });
+        res.json({ message: "Deposit Successful", account });
+    } catch (err) {
+        res.status(500).json({ error: "Deposit failed." });
+    }
+});
+
+// 6. WITHDRAW MONEY
+router.patch('/withdraw', async (req, res) => {
+    const { accountNo, amount } = req.body;
+    try {
+        const account = await Account.findOne({ accountNo });
+        if (!account) return res.status(404).json({ error: "Account not found." });
+
+        // Functional Validation: Check for sufficient balance 
+        if (account.balance < Number(amount)) {
+            return res.status(400).json({ error: "Insufficient balance for withdrawal." });
+        }
+
+        account.balance -= Number(amount);
+        await account.save();
+        res.json({ message: "Withdrawal Successful", account });
+    } catch (err) {
+        res.status(500).json({ error: "Withdrawal failed." });
+    }
+});
 
 module.exports = router;

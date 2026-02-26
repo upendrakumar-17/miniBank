@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api/api';
+import './style/Login.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -35,32 +36,36 @@ const Login = () => {
     };
 
     return (
-        <div className="card">
-            <h2>Login to Your Dashboard</h2>
+        <div className="login-card">
+            <div className="login-header">
+                <h2>Login to Your Dashboard</h2>
+                <p>Access your SYMB Online Bank account</p>
+            </div>
 
             {/* MANDATORY UI REQUIREMENT: Output Display Panel */}
             {message.text && (
-                <div className={`output-panel ${message.type}`}>
+                <div className={`login-output-panel login-output-panel-${message.type}`}>
                     {message.text}
                 </div>
             )}
 
-            <form onSubmit={handleLogin}>
-                <div className="form-group">
+            <form onSubmit={handleLogin} className="login-form">
+                <div className="login-form-group">
                     <label>Enter Registered Email</label>
                     <input 
+                        className="login-input"
                         type="email" 
                         value={email} 
                         onChange={(e) => setEmail(e.target.value)} 
-                        placeholder="e.g. upendra@example.com"
+                        placeholder="e.g. user@example.com"
                         required 
                     />
                 </div>
-                <button type="submit">Access My Account</button>
+                <button type="submit" className="login-btn">Access My Account</button>
             </form>
 
-            <p style={{ marginTop: '20px', fontSize: '0.9rem' }}>
-                Don't have an account? <span onClick={() => navigate('/register')} style={{ color: '#3498db', cursor: 'pointer', textDecoration: 'underline' }}>Register here</span>
+            <p className="login-signup-link">
+                Don't have an account? <span onClick={() => navigate('/register')}>Register here</span>
             </p>
         </div>
     );

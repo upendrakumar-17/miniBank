@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api/api';
+import './style/Register.css';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -43,34 +44,37 @@ const Register = () => {
     };
 
     return (
-        <div className="card">
-            <h2>Open New Online Account</h2>
+        <div className="register-card">
+            <div className="register-header">
+                <h2>Open New Online Account</h2>
+                <p>Join SYMB Online Bank in seconds</p>
+            </div>
 
             {/* Output Display Panel */}
             {message.text && (
-                <div className={`output-panel ${message.type}`}>
+                <div className={`register-output-panel register-output-panel-${message.type}`}>
                     {message.text}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
+            <form onSubmit={handleSubmit} className="register-form">
+                <div className="register-form-group">
                     <label>Full Name</label>
-                    <input name="holderName" value={formData.holderName} onChange={handleChange} required />
+                    <input className="register-input" name="holderName" value={formData.holderName} onChange={handleChange} required />
                 </div>
-                <div className="form-group">
+                <div className="register-form-group">
                     <label>Email Address</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                    <input className="register-input" type="email" name="email" value={formData.email} onChange={handleChange} required />
                 </div>
-                <div className="form-group">
+                <div className="register-form-group">
                     <label>Phone Number</label>
-                    <input name="phone" value={formData.phone} onChange={handleChange} required />
+                    <input className="register-input" name="phone" value={formData.phone} onChange={handleChange} required />
                 </div>
-                <div className="form-group">
+                <div className="register-form-group">
                     <label>Initial Deposit (₹)</label>
-                    <input type="number" name="balance" value={formData.balance} onChange={handleChange} />
+                    <input className="register-input" type="number" name="balance" value={formData.balance} onChange={handleChange} />
                 </div>
-                <button type="submit">Register & Login</button>
+                <button type="submit" className="register-btn">Register & Login</button>
             </form>
         </div>
     );
